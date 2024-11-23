@@ -1,11 +1,13 @@
 # Highlight.io services for the hobby deployment.
+version: "3.8"
+
 services:
     backend:
         container_name: backend
         image: ${BACKEND_IMAGE_NAME-ghcr.io/highlight/highlight-backend:latest}
         restart: on-failure
         ports:
-            - '0.0.0.0:8082:8082'
+            - "0.0.0.0:8082:8082"  # Backend service exposed on port 8082
         volumes:
             - highlight-data:/highlight-data
             - ../backend/env.enc:/build/env.enc
@@ -22,9 +24,9 @@ services:
             - ../backend/localhostssl/server.key:/etc/ssl/private/ssl-cert.key
             - ../backend/localhostssl/server.pem:/etc/ssl/certs/ssl-cert.pem
         ports:
-            - '0.0.0.0:3000:3000'
-            - '0.0.0.0:6006:6006'
-            - '0.0.0.0:8080:8085'
+            - "0.0.0.0:3000:3000"  # Frontend on port 3000
+            - "0.0.0.0:6006:6006"  # Storybook or additional frontend tools
+            - "0.0.0.0:8081:8085"  # Changed host port from 8080 to 8081 to resolve conflict
         env_file: .env
 
 volumes:
